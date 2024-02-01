@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound interest calculator</title>
+
+    <style>
+        /* Základní stylizace pro celou stránku */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center; /* Zarovnání obsahu na střed */
+           
+        }
+        body {
+        background-image: url('eurusd.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+}
+        /* Obdelník se šedým uvnitř */
+        .calculator {
+            background-color: #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto; /* Zarovnání na střed */
+            display: inline-block; /* Prvek bude mít pouze minimální šířku potřebnou pro obsah */
+        }
+
+        /* odsazení krajů obdelníku.. symetrický vzhled */
+        .calculator-item {
+            margin-bottom: 10px;
+        }
+
+        /* Zarovnání obsahu obdelníku pod sebe a zvětšení */
+        .calculator-item input[type="text"] {
+            width: calc(100% - 22px); /* 22px = 2*10px padding + 2*1px border */
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Smazat? */
+        .result {
+            margin-top: 20px;
+        }
+
+        /* Tlačítka vedle sebe */
+        .subscribe {
+            display: inline-block;
+        }
+
+        /* Design tlačítek */
+        .subscribe button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #calculateBtn {
+            background-color: rgb(90, 194, 38);
+            color: white;
+        }
+
+        #clearBtn {
+            background-color: rgb(214, 52, 34);
+            color: white;
+        }
+
+        /* Posunutí výsledku dolů o několik pixelů */
+        #output {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compound interest calculator</h1>
+
+    <div class="container"> <!-- Kalkulačka-->
+        <div class="calculator">
+            <div class="calculator-item">
+                <label>Inicial deposit (CZK):</label>
+                <input type="text" name="principal" id="principal" min="1">
+            </div>
+            <div class="calculator-item">
+                <label>Regular monthly deposit (CZK):</label>
+                <input type="text" name="monthlyDeposit" id="monthlyDeposit" min="0">
+            </div>
+            <div class="calculator-item">
+                <label>Investment duration (in years):</label>
+                <input type="text" name="years" id="years" min="1">
+            </div>
+            <div class="calculator-item">
+                <label>Annual interest rate (% p.a.):</label>
+                <input type="text" name="interestRate" id="interestRate" min="0.1">
+            </div>
+        </div>
+    </div>
+
+    <div class="result"> <!-- Spočítej-->
+        <div class="subscribe">
+            <div class="subscribe" style="text-align: left;">
+                <button id="calculateBtn" style="background-color: rgb(90, 194, 38); color: white; margin-top: 5px;">Vypočítat</button>
+            </div>
+            <div class="subscribe" style="text-align: right;">
+                <button id="clearBtn" style="background-color: rgb(214, 52, 34); color: white; margin-top: 5px;">Smazat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        // Skript pro výpočet
+        document.getElementById("calculateBtn").addEventListener("click", function() {
+            // Zde můžete provést výpočty a zobrazit výsledek
+            // Například:
+            var principal = parseFloat(document.getElementById("principal").value);
+            var monthlyDeposit = parseFloat(document.getElementById("monthlyDeposit").value);
+            var years = parseFloat(document.getElementById("years").value);
+            var interestRate = parseFloat(document.getElementById("interestRate").value);
+
+            var total = principal;
+            for (var i = 0; i < years; i++) {
+                total *= (1 + (interestRate / 100));
+                total += monthlyDeposit * 12;
+            }
+
+            // Zaokrouhlení na celé číslo
+            total = Math.round(total);
+
+            // Zobrazení výsledku s číslem rozděleným mezerami
+            document.getElementById("output").innerHTML = "Celková částka po " + years + " letech: " + total.toLocaleString() + " CZK";
+        });
+
+        // Skript pro smazání vstupů
+        document.getElementById("clearBtn").addEventListener("click", function() {
+            document.getElementById("principal").value = "";
+            document.getElementById("monthlyDeposit").value = "";
+            document.getElementById("years").value = "";
+            document.getElementById("interestRate").value = "";
+            document.getElementById("output").innerHTML = ""; // Vymazání výstupu
+        });
+    </script>
+</body>
+</html>
